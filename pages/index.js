@@ -1,78 +1,98 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabaseClient'
+import ProductCard from '../components/ProductCard.js'
+import BookingModal from '../components/BookingModal.js'
+import Navbar from '../components/Navbar.js'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const CATEGORIES = ['semua', 'tenda', 'carrier', 'pakaian', 'alas', 'masak', 'navigasi', 'penerangan']
 
 export default function Home() {
+  const [products, setProducts] = useState([])
+  const [filtered, setFiltered] = useState([])
+  const [category, setCategory] = useState('semua')
+  const [selected, setSelected] = useState(null)  // produk yang dipilih untuk booking
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  useEffect(() => {
+    setFiltered(
+      category === 'semua' ? products : products.filter(p => p.category === category)
+    )
+  }, [category, products])
+
+  async function fetchProducts() {
+    const { data } = await supabase
+      .from('products')
+      .select('*')
+      .eq('is_active', true)
+      .order('category')
+    setProducts(data || [])
+    setLoading(false)
+  }
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen bg-stone-950 text-stone-100">
+      <Navbar />
+
+      {/* HERO */}
+      <section className="pt-32 pb-20 px-6 text-center">
+        <p className="text-orange-500 text-sm tracking-widest uppercase mb-3">
+          Rental Alat Outdoor Terpercaya
+        </p>
+        <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6">
+          SIAP<br />
+          <span className="text-orange-500">MENAKLUKKAN</span><br />
+          PUNCAK?
+        </h1>
+        <p className="text-stone-400 text-lg max-w-xl mx-auto">
+          Sewa peralatan hiking & outdoor berkualitas. Ringan di kantong, berat di kualitas.
+        </p>
+      </section>
+
+      {/* FILTER */}
+      <section className="px-6 max-w-6xl mx-auto">
+        <div className="flex gap-2 flex-wrap mb-8">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setCategory(cat)}
+              className={`px-4 py-2 text-xs uppercase tracking-widest border transition-all
+                ${category === cat
+                  ? 'bg-orange-600 border-orange-600 text-white'
+                  : 'border-stone-700 text-stone-400 hover:border-orange-500 hover:text-orange-400'
+                }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* GRID PRODUK */}
+        {loading ? (
+          <div className="text-center text-stone-500 py-20">Memuat katalog...</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {filtered.map(product => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onBook={() => setSelected(product)}
+              />
+            ))}
+            </div>
+        )}
+      </section>
+
+      {/* BOOKING MODAL */}
+      {selected && (
+        <BookingModal
+          product={selected}
+          onClose={() => setSelected(null)}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      )}
     </div>
-  );
+  )
 }
