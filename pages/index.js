@@ -93,15 +93,15 @@ export default function Home() {
           <div className="text-center text-stone-500 py-20 font-mono text-sm">Tidak ada produk ditemukan.</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filtered.map(product => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onBook={() => setSelected(product)}
-              />
-            ))}
-          </div>
-        )}
+    {filtered.map(product => (
+      <ProductCard
+        key={product.id}
+        product={product}
+        onBook={() => setSelected(product)}
+      />
+    ))}
+  </div>
+)}
       </section>
 
       {/* ── CARA SEWA ── */}
@@ -188,10 +188,10 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* Info Kontak */}
             <div className="space-y-6">
-              {[
-                { icon: '📍', label: 'Alamat', value: 'Jl. Raya Pandanwangi No.1, Malang, Jawa Timur' },
-                { icon: '📞', label: 'Telepon / WhatsApp', value: '0858-9587-0069' },
-                { icon: '✉️', label: 'Email', value: 'halo@puncak.id' },
+{[
+  { icon: '📍', label: 'Alamat', value: 'Jl. Raya Pandanwangi No.1, Malang, Jawa Timur' },
+  { icon: '📞', label: 'Telepon / WhatsApp', value: '0858-9587-0069' },
+  { icon: '✉️', label: 'Email', value: 'halo@puncak.id' },
                 { icon: '⏰', label: 'Jam Operasional', value: 'Senin – Minggu, 08.00 – 20.00 WIB' },
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 items-start">
