@@ -67,7 +67,7 @@ export default function Home() {
           <p className="text-orange-500 text-xs font-mono tracking-widest uppercase mb-4">
             Rental Alat Outdoor Terpercaya
           </p>
-          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6 leading-none">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6 leading-tight">
             SIAP<br />
             <span className="text-orange-500">MENAKLUKKAN</span><br />
             PUNCAK?
@@ -75,7 +75,7 @@ export default function Home() {
           <p className="text-stone-300 text-lg max-w-xl mx-auto mb-10">
             Sewa peralatan hiking & outdoor berkualitas. Ringan di kantong, berat di kualitas.
           </p>
-          <div className="flex gap-3 justify-center flex-wrap">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center px-4">
             <a href="#katalog"
               className="bg-orange-600 hover:bg-orange-500 text-white px-8 py-3 text-xs font-mono uppercase tracking-widest transition-colors">
               Lihat Katalog
