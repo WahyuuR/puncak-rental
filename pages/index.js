@@ -40,27 +40,53 @@ export default function Home() {
       <Navbar />
 
       {/* ── HERO ── */}
-      <section className="pt-36 pb-24 px-6 text-center">
-        <p className="text-orange-500 text-xs font-mono tracking-widest uppercase mb-4">
-          Rental Alat Outdoor Terpercaya
-        </p>
-        <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6 leading-none">
-          SIAP<br />
-          <span className="text-orange-500">MENAKLUKKAN</span><br />
-          PUNCAK?
-        </h1>
-        <p className="text-stone-400 text-lg max-w-xl mx-auto mb-10">
-          Sewa peralatan hiking & outdoor berkualitas. Ringan di kantong, berat di kualitas.
-        </p>
-        <div className="flex gap-3 justify-center flex-wrap">
-          <a href="#katalog"
-            className="bg-orange-600 hover:bg-orange-500 text-white px-8 py-3 text-xs font-mono uppercase tracking-widest transition-colors">
-            Lihat Katalog
-          </a>
-          <a href="#cara-sewa"
-            className="border border-stone-600 hover:border-orange-500 text-stone-300 hover:text-orange-400 px-8 py-3 text-xs font-mono uppercase tracking-widest transition-colors">
-            Cara Sewa
-          </a>
+
+      <section
+        className="relative pt-36 pb-24 px-6 text-center overflow-hidden"
+        style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+      >
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/hero-bg.jpeg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 z-10 bg-black/60" />
+
+        {/* Gradient bawah supaya blend ke section berikutnya */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 z-10 bg-gradient-to-t from-stone-950 to-transparent" />
+
+        {/* Konten Hero */}
+        <div className="relative z-20">
+          <p className="text-orange-500 text-xs font-mono tracking-widest uppercase mb-4">
+            Rental Alat Outdoor Terpercaya
+          </p>
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6 leading-none">
+            SIAP<br />
+            <span className="text-orange-500">MENAKLUKKAN</span><br />
+            PUNCAK?
+          </h1>
+          <p className="text-stone-300 text-lg max-w-xl mx-auto mb-10">
+            Sewa peralatan hiking & outdoor berkualitas. Ringan di kantong, berat di kualitas.
+          </p>
+          <div className="flex gap-3 justify-center flex-wrap">
+            <a href="#katalog"
+              className="bg-orange-600 hover:bg-orange-500 text-white px-8 py-3 text-xs font-mono uppercase tracking-widest transition-colors">
+              Lihat Katalog
+            </a>
+            <a href="#cara-sewa"
+              className="border border-white/40 hover:border-orange-500 text-white hover:text-orange-400 px-8 py-3 text-xs font-mono uppercase tracking-widest transition-colors">
+              Cara Sewa
+            </a>
+          </div>
+
+
         </div>
       </section>
 
@@ -92,7 +118,7 @@ export default function Home() {
         ) : filtered.length === 0 ? (
           <div className="text-center text-stone-500 py-20 font-mono text-sm">Tidak ada produk ditemukan.</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">   
     {filtered.map(product => (
       <ProductCard
         key={product.id}
